@@ -3,8 +3,8 @@ package defaultmap
 import "testing"
 
 func TestNewMap(t *testing.T) {
-	var factory DefaultFactory[[]bool] = func() []bool {
-		return make([]bool, 1)
+	var factory DefaultFactory[struct{}] = func() struct{} {
+		return struct{}{}
 	}
 
 	m := NewMap[string](factory)
@@ -12,8 +12,8 @@ func TestNewMap(t *testing.T) {
 	if m.m == nil {
 		t.Fatalf(`Internal map is nil`)
 	}
-	if &m.defaultF != &factory {
-		t.Fatalf(`DefaultFactory pointers do not match`)
+	if m.defaultF() != factory() {
+		t.Fatalf(`DefaultFactory return values do not match`)
 	}
 }
 
@@ -59,15 +59,16 @@ func TestGetOr(t *testing.T) {
 
 	tests := []struct {
 		key         string
+		defaultV    string
 		want        string
 		existsAfter bool
 	}{
-		{"exists", "yes", true},
-		{"doesn't exist", "new string", true},
+		{"exists", "no", "yes", true},
+		{"doesn't exist", "new string", "new string", false},
 	}
 
 	for _, tt := range tests {
-		if v := m.Get(tt.key); v != tt.want {
+		if v := m.GetOr(tt.key, tt.defaultV); v != tt.want {
 			t.Errorf(`m.Get(%q) = %q, want %q`, tt.key, v, tt.want)
 		}
 		if _, ok := m.m[tt.key]; ok != tt.existsAfter {
