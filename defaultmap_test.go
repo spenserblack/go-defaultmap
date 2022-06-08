@@ -59,15 +59,16 @@ func TestGetOr(t *testing.T) {
 
 	tests := []struct {
 		key         string
+		defaultV    string
 		want        string
 		existsAfter bool
 	}{
-		{"exists", "yes", true},
-		{"doesn't exist", "new string", true},
+		{"exists", "no", "yes", true},
+		{"doesn't exist", "new string", "new string", false},
 	}
 
 	for _, tt := range tests {
-		if v := m.Get(tt.key); v != tt.want {
+		if v := m.GetOr(tt.key, tt.defaultV); v != tt.want {
 			t.Errorf(`m.Get(%q) = %q, want %q`, tt.key, v, tt.want)
 		}
 		if _, ok := m.m[tt.key]; ok != tt.existsAfter {
