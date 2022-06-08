@@ -38,7 +38,11 @@ func (m Map[K, V]) Get(key K) V {
 // DefaultFactory. Unlike Get, this will not assign the default if the key
 // did not exist.
 func (m Map[K, V]) GetOr(key K, defaultValue V) V {
-	panic("not implemented")
+	v, ok := m.m[key]
+	if ok {
+		return v
+	}
+	return defaultValue
 }
 
 // Insert inserts a key-value pair into the map.
