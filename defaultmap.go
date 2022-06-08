@@ -37,7 +37,7 @@ func (m Map[K, V]) GetOr(key K, defaultValue V) V {
 
 // Insert inserts a key-value pair into the map.
 func (m Map[K, V]) Insert(key K, value V) {
-	panic("not implemented")
+	m.m[key] = value
 }
 
 // Delete removes a key-value pair from the map. This will cause the default
