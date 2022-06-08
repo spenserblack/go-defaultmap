@@ -50,7 +50,7 @@ func (m Map[K, V]) Insert(key K, value V) {
 // value to be returned instead on attempts to access the value assigned to the
 // key.
 func (m Map[K, V]) Delete(key K) {
-	panic("not implemented")
+	delete(m.m, key)
 }
 
 // Contains checks if the key exists in the map without creating a key-value
