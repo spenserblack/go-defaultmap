@@ -3,8 +3,8 @@ package defaultmap
 import "testing"
 
 func TestNewMap(t *testing.T) {
-	var factory DefaultFactory[[]bool] = func() []bool {
-		return make([]bool, 1)
+	var factory DefaultFactory[struct{}] = func() struct{} {
+		return struct{}{}
 	}
 
 	m := NewMap[string](factory)
@@ -12,8 +12,8 @@ func TestNewMap(t *testing.T) {
 	if m.m == nil {
 		t.Fatalf(`Internal map is nil`)
 	}
-	if &m.defaultF != &factory {
-		t.Fatalf(`DefaultFactory pointers do not match`)
+	if m.defaultF() != factory() {
+		t.Fatalf(`DefaultFactory return values do not match`)
 	}
 }
 
