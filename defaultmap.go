@@ -25,7 +25,13 @@ func NewMap[K comparable, V any](factory DefaultFactory[V]) Map[K, V] {
 // value from the DefaultFactory and return that instead if the key didn't
 // exist.
 func (m Map[K, V]) Get(key K) V {
-	panic("not implemented")
+	v, ok := m.m[key]
+	if ok {
+		return v
+	}
+	d := m.defaultF()
+	m.m[key] = d
+	return d
 }
 
 // GetOr allows you to specify the default value instead of using the
