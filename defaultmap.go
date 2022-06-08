@@ -15,7 +15,10 @@ type Map[K comparable, V any] struct {
 // NewMap generates a new map with that returns default values for keys that
 // have not been set.
 func NewMap[K comparable, V any](factory DefaultFactory[V]) Map[K, V] {
-	panic("not implemented")
+	return Map[K, V]{
+		m:        make(map[K]V),
+		defaultF: factory,
+	}
 }
 
 // Get tries to get the value mapped to the key, but will assign the return
