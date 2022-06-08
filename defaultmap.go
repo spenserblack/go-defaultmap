@@ -56,5 +56,6 @@ func (m Map[K, V]) Delete(key K) {
 // Contains checks if the key exists in the map without creating a key-value
 // pair using the DefaultFactory.
 func (m Map[K, V]) Contains(key K) bool {
-	panic("not implemented")
+	_, ok := m.m[key]
+	return ok
 }
